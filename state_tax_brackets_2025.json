@@ -1,0 +1,1164 @@
+{
+  "AL": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 500,
+        "rate": 0.02
+      },
+      {
+        "bottom": 500,
+        "top": 3000,
+        "rate": 0.04
+      },
+      {
+        "bottom": 3000,
+        "top": 999999999,
+        "rate": 0.05
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "AZ": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.025
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "AR": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 4500,
+        "rate": 0.02
+      },
+      {
+        "bottom": 4500,
+        "top": 999999999,
+        "rate": 0.039
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "CA": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 10756,
+        "rate": 0.01
+      },
+      {
+        "bottom": 10756,
+        "top": 25499,
+        "rate": 0.02
+      },
+      {
+        "bottom": 25499,
+        "top": 40245,
+        "rate": 0.04
+      },
+      {
+        "bottom": 40245,
+        "top": 55866,
+        "rate": 0.06
+      },
+      {
+        "bottom": 55866,
+        "top": 70606,
+        "rate": 0.08
+      },
+      {
+        "bottom": 70606,
+        "top": 360659,
+        "rate": 0.093
+      },
+      {
+        "bottom": 360659,
+        "top": 432787,
+        "rate": 0.103
+      },
+      {
+        "bottom": 432787,
+        "top": 721314,
+        "rate": 0.113
+      },
+      {
+        "bottom": 721314,
+        "top": 1000000,
+        "rate": 0.123
+      },
+      {
+        "bottom": 1000000,
+        "top": 999999999,
+        "rate": 0.133
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "CO": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.044
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "CT": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 10000,
+        "rate": 0.02
+      },
+      {
+        "bottom": 10000,
+        "top": 50000,
+        "rate": 0.045
+      },
+      {
+        "bottom": 50000,
+        "top": 100000,
+        "rate": 0.055
+      },
+      {
+        "bottom": 100000,
+        "top": 200000,
+        "rate": 0.06
+      },
+      {
+        "bottom": 200000,
+        "top": 250000,
+        "rate": 0.065
+      },
+      {
+        "bottom": 250000,
+        "top": 500000,
+        "rate": 0.069
+      },
+      {
+        "bottom": 500000,
+        "top": 999999999,
+        "rate": 0.0699
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "DE": {
+    "single": [
+      {
+        "bottom": 2000,
+        "top": 5000,
+        "rate": 0.022
+      },
+      {
+        "bottom": 5000,
+        "top": 10000,
+        "rate": 0.039
+      },
+      {
+        "bottom": 10000,
+        "top": 20000,
+        "rate": 0.048
+      },
+      {
+        "bottom": 20000,
+        "top": 25000,
+        "rate": 0.052
+      },
+      {
+        "bottom": 25000,
+        "top": 60000,
+        "rate": 0.0555
+      },
+      {
+        "bottom": 60000,
+        "top": 999999999,
+        "rate": 0.066
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "GA": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0539
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "HI": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 9600,
+        "rate": 0.014
+      },
+      {
+        "bottom": 9600,
+        "top": 14400,
+        "rate": 0.032
+      },
+      {
+        "bottom": 14400,
+        "top": 19200,
+        "rate": 0.055
+      },
+      {
+        "bottom": 19200,
+        "top": 24000,
+        "rate": 0.064
+      },
+      {
+        "bottom": 24000,
+        "top": 36000,
+        "rate": 0.068
+      },
+      {
+        "bottom": 36000,
+        "top": 48000,
+        "rate": 0.072
+      },
+      {
+        "bottom": 48000,
+        "top": 125000,
+        "rate": 0.076
+      },
+      {
+        "bottom": 125000,
+        "top": 175000,
+        "rate": 0.079
+      },
+      {
+        "bottom": 175000,
+        "top": 225000,
+        "rate": 0.0825
+      },
+      {
+        "bottom": 225000,
+        "top": 275000,
+        "rate": 0.09
+      },
+      {
+        "bottom": 275000,
+        "top": 325000,
+        "rate": 0.1
+      },
+      {
+        "bottom": 325000,
+        "top": 999999999,
+        "rate": 0.11
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "ID": {
+    "single": [
+      {
+        "bottom": 4673,
+        "top": 999999999,
+        "rate": 0.05695
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "IL": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0495
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "IN": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.03
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "IA": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.038
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "KS": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 23000,
+        "rate": 0.052
+      },
+      {
+        "bottom": 23000,
+        "top": 999999999,
+        "rate": 0.0558
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "KY": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.04
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "LA": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.03
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "ME": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 26800,
+        "rate": 0.058
+      },
+      {
+        "bottom": 26800,
+        "top": 63450,
+        "rate": 0.0675
+      },
+      {
+        "bottom": 63450,
+        "top": 999999999,
+        "rate": 0.0715
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "MD": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 1000,
+        "rate": 0.02
+      },
+      {
+        "bottom": 1000,
+        "top": 2000,
+        "rate": 0.03
+      },
+      {
+        "bottom": 2000,
+        "top": 3000,
+        "rate": 0.04
+      },
+      {
+        "bottom": 3000,
+        "top": 100000,
+        "rate": 0.0475
+      },
+      {
+        "bottom": 100000,
+        "top": 125000,
+        "rate": 0.05
+      },
+      {
+        "bottom": 125000,
+        "top": 150000,
+        "rate": 0.0525
+      },
+      {
+        "bottom": 150000,
+        "top": 250000,
+        "rate": 0.055
+      },
+      {
+        "bottom": 250000,
+        "top": 999999999,
+        "rate": 0.0575
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "MA": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 1083150,
+        "rate": 0.05
+      },
+      {
+        "bottom": 1083150,
+        "top": 999999999,
+        "rate": 0.09
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "MI": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0425
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "MN": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 32570,
+        "rate": 0.0535
+      },
+      {
+        "bottom": 32570,
+        "top": 106990,
+        "rate": 0.068
+      },
+      {
+        "bottom": 106990,
+        "top": 198630,
+        "rate": 0.0785
+      },
+      {
+        "bottom": 198630,
+        "top": 999999999,
+        "rate": 0.0985
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "MS": {
+    "single": [
+      {
+        "bottom": 10000,
+        "top": 999999999,
+        "rate": 0.044
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "MO": {
+    "single": [
+      {
+        "bottom": 1313,
+        "top": 2626,
+        "rate": 0.02
+      },
+      {
+        "bottom": 2626,
+        "top": 3939,
+        "rate": 0.025
+      },
+      {
+        "bottom": 3939,
+        "top": 5252,
+        "rate": 0.03
+      },
+      {
+        "bottom": 5252,
+        "top": 6565,
+        "rate": 0.035
+      },
+      {
+        "bottom": 6565,
+        "top": 7878,
+        "rate": 0.04
+      },
+      {
+        "bottom": 7878,
+        "top": 9191,
+        "rate": 0.045
+      },
+      {
+        "bottom": 9191,
+        "top": 999999999,
+        "rate": 0.047
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "MT": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 21100,
+        "rate": 0.047
+      },
+      {
+        "bottom": 21100,
+        "top": 999999999,
+        "rate": 0.059
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "NE": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 4030,
+        "rate": 0.0246
+      },
+      {
+        "bottom": 4030,
+        "top": 24120,
+        "rate": 0.0351
+      },
+      {
+        "bottom": 24120,
+        "top": 38870,
+        "rate": 0.0501
+      },
+      {
+        "bottom": 38870,
+        "top": 999999999,
+        "rate": 0.052
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "NJ": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 20000,
+        "rate": 0.014
+      },
+      {
+        "bottom": 20000,
+        "top": 35000,
+        "rate": 0.0175
+      },
+      {
+        "bottom": 35000,
+        "top": 40000,
+        "rate": 0.035
+      },
+      {
+        "bottom": 40000,
+        "top": 75000,
+        "rate": 0.05525
+      },
+      {
+        "bottom": 75000,
+        "top": 500000,
+        "rate": 0.0637
+      },
+      {
+        "bottom": 500000,
+        "top": 1000000,
+        "rate": 0.0897
+      },
+      {
+        "bottom": 1000000,
+        "top": 999999999,
+        "rate": 0.1075
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "NM": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 5500,
+        "rate": 0.015
+      },
+      {
+        "bottom": 5500,
+        "top": 16500,
+        "rate": 0.032
+      },
+      {
+        "bottom": 16500,
+        "top": 33500,
+        "rate": 0.043
+      },
+      {
+        "bottom": 33500,
+        "top": 66500,
+        "rate": 0.047
+      },
+      {
+        "bottom": 66500,
+        "top": 210000,
+        "rate": 0.049
+      },
+      {
+        "bottom": 210000,
+        "top": 999999999,
+        "rate": 0.059
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "NY": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 8500,
+        "rate": 0.04
+      },
+      {
+        "bottom": 8500,
+        "top": 11700,
+        "rate": 0.045
+      },
+      {
+        "bottom": 11700,
+        "top": 13900,
+        "rate": 0.0525
+      },
+      {
+        "bottom": 13900,
+        "top": 80650,
+        "rate": 0.055
+      },
+      {
+        "bottom": 80650,
+        "top": 215400,
+        "rate": 0.06
+      },
+      {
+        "bottom": 215400,
+        "top": 1077550,
+        "rate": 0.0685
+      },
+      {
+        "bottom": 1077550,
+        "top": 5000000,
+        "rate": 0.0965
+      },
+      {
+        "bottom": 5000000,
+        "top": 25000000,
+        "rate": 0.103
+      },
+      {
+        "bottom": 25000000,
+        "top": 999999999,
+        "rate": 0.109
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "NC": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0425
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "ND": {
+    "single": [
+      {
+        "bottom": 48475,
+        "top": 244825,
+        "rate": 0.0195
+      },
+      {
+        "bottom": 244825,
+        "top": 999999999,
+        "rate": 0.025
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "OH": {
+    "single": [
+      {
+        "bottom": 26050,
+        "top": 100000,
+        "rate": 0.0275
+      },
+      {
+        "bottom": 100000,
+        "top": 999999999,
+        "rate": 0.035
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "OK": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 1000,
+        "rate": 0.0025
+      },
+      {
+        "bottom": 1000,
+        "top": 2500,
+        "rate": 0.0075
+      },
+      {
+        "bottom": 2500,
+        "top": 3750,
+        "rate": 0.0175
+      },
+      {
+        "bottom": 3750,
+        "top": 4900,
+        "rate": 0.0275
+      },
+      {
+        "bottom": 4900,
+        "top": 7200,
+        "rate": 0.0375
+      },
+      {
+        "bottom": 7200,
+        "top": 999999999,
+        "rate": 0.0475
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "OR": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 4400,
+        "rate": 0.0475
+      },
+      {
+        "bottom": 4400,
+        "top": 11050,
+        "rate": 0.0675
+      },
+      {
+        "bottom": 11050,
+        "top": 125000,
+        "rate": 0.0875
+      },
+      {
+        "bottom": 125000,
+        "top": 999999999,
+        "rate": 0.099
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "PA": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0307
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "RI": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 79900,
+        "rate": 0.0375
+      },
+      {
+        "bottom": 79900,
+        "top": 181650,
+        "rate": 0.0475
+      },
+      {
+        "bottom": 181650,
+        "top": 999999999,
+        "rate": 0.0599
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "SC": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 3560,
+        "rate": 0.0
+      },
+      {
+        "bottom": 3560,
+        "top": 17830,
+        "rate": 0.03
+      },
+      {
+        "bottom": 17830,
+        "top": 999999999,
+        "rate": 0.062
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "UT": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0455
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "VT": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 47900,
+        "rate": 0.0335
+      },
+      {
+        "bottom": 47900,
+        "top": 116000,
+        "rate": 0.066
+      },
+      {
+        "bottom": 116000,
+        "top": 242000,
+        "rate": 0.076
+      },
+      {
+        "bottom": 242000,
+        "top": 999999999,
+        "rate": 0.0875
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "VA": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 3000,
+        "rate": 0.02
+      },
+      {
+        "bottom": 3000,
+        "top": 5000,
+        "rate": 0.03
+      },
+      {
+        "bottom": 5000,
+        "top": 17000,
+        "rate": 0.05
+      },
+      {
+        "bottom": 17000,
+        "top": 999999999,
+        "rate": 0.0575
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "WA": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 10000,
+        "rate": 0.0222
+      },
+      {
+        "bottom": 10000,
+        "top": 25000,
+        "rate": 0.0296
+      },
+      {
+        "bottom": 25000,
+        "top": 40000,
+        "rate": 0.0333
+      },
+      {
+        "bottom": 40000,
+        "top": 60000,
+        "rate": 0.0444
+      },
+      {
+        "bottom": 60000,
+        "top": 999999999,
+        "rate": 0.0482
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "WI": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 14680,
+        "rate": 0.035
+      },
+      {
+        "bottom": 14680,
+        "top": 29370,
+        "rate": 0.044
+      },
+      {
+        "bottom": 29370,
+        "top": 323290,
+        "rate": 0.053
+      },
+      {
+        "bottom": 323290,
+        "top": 999999999,
+        "rate": 0.0765
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "DC": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 10000,
+        "rate": 0.04
+      },
+      {
+        "bottom": 10000,
+        "top": 40000,
+        "rate": 0.06
+      },
+      {
+        "bottom": 40000,
+        "top": 60000,
+        "rate": 0.065
+      },
+      {
+        "bottom": 60000,
+        "top": 250000,
+        "rate": 0.085
+      },
+      {
+        "bottom": 250000,
+        "top": 500000,
+        "rate": 0.0925
+      },
+      {
+        "bottom": 500000,
+        "top": 1000000,
+        "rate": 0.0975
+      },
+      {
+        "bottom": 1000000,
+        "top": 999999999,
+        "rate": 0.1075
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "AK": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "FL": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "NV": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "NH": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "SD": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "TN": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "TX": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "WV": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  },
+  "WY": {
+    "single": [
+      {
+        "bottom": 0,
+        "top": 999999999,
+        "rate": 0.0
+      }
+    ],
+    "married": [],
+    "standard_deduction": {},
+    "personal_exemption": {}
+  }
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tax Calculator</title>
+</head>
+<style>
+    table, th, td {
+      border: 0px solid black;
+    }
+    </style>
+<body>
+    <h2>Tax Calculator</h2>
+    <form method="post">
+        <label>Income: $</label>
+        <input type="number" name="income" value="{{ request.form.income or 100000 }}" required><br><br>
+
+        <label>Filing Status:</label>
+        <select name="status">
+            <option value="single" {% if request.form.status == 'single' %}selected{% endif %}>Single</option>
+            <option value="married" {% if request.form.status == 'married' %}selected{% endif %}>Married</option>
+          </select>
+          <br><br>       
+
+        <label>Number of Children:</label>
+        <input type="number" name="children" value="{{ request.form.children or 0 }}" min="0"><br><br>
+
+        <label>State:</label>
+  
+        <select name="state" required>
+            {% for abbr in state_list %}
+              <option value="{{ abbr }}" {% if request.form.state == abbr %}selected{% endif %}>{{ abbr }}</option>
+            {% endfor %}
+        </select>
+          <br><br>
+          
+
+          <table style="float:right">
+            <tr>
+              <td><label for="spend_pct">Estimated % of Net Income Spent on Taxable Goods:</label></td>
+              <td>Those with lower incomes typically spend about three-quarters 
+                      of their earnings on items that are subject to sales tax, 
+                      whereas top earners spend about a sixth of their income on taxed items.</td>
+            </tr>
+            <tr>
+              <td><input type="number" id="spend_pct" name="spend_pct" min="0" max="100" step="1" value="{{ request.form.spend_pct or 50 }}"></td>
+              <td></td>
+            </tr>
+          </table>
+        <input type="submit" value="Calculate">
+
+    </form>
+
+    {% if result %}
+        <h3>Results</h3>
+        {% if result %}
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 2rem 0;">
+          <div><strong>Total Tax Paid:</strong><br>${{ result.total_tax }}</div>
+          <div><strong>Total Fed Paid:</strong><br>${{ result.total_fed }}</div>
+          <div><strong>Total State Paid:</strong><br>${{ result.total_state }}</div>
+          <div><strong>Total State Tax Paid:</strong><br>${{ result.sales_tax_paid }}</div>
+      
+          <div><strong>Effective Tax Rate:</strong><br>{{ result.effective_rate }}%</div>
+          <div><strong>Effective Fed Rate:</strong><br>{{ result.effective_fed_rate }}%</div>
+          <div><strong>Effective State Rate:</strong><br>{{ result.effective_state_rate }}%</div>
+          <div><strong>Effective Sales Tax Rate:</strong><br>{{ result.effective_sales_tax_rate }}%</div>
+        </div>
+      {% endif %}
+      <h3>Tax Breakdown</h3>
+      {{ graph_html|safe }}
+      
+      <div style="display: flex; gap: 40px; justify-content: center;">
+        
+        <div style="width: 50%;">
+            <br>
+        <h3>Income Summary</h3>
+            {{ summary_html|safe }}
+        </div>
+        <div style="width: 50%;">
+            <h3>Income Allocation (100%)</h3>
+            {{ allocation_html | safe }}
+        </div>
+    </div>
+        <h3>State Comparison</h3>
+        {{ comparison_html|safe }}
+    {% endif %}
+    
+    <h2>Estimated Combined Tax Burden (Income + Sales)</h2>
+    {{ sales_html|safe }}
+
+
+</body>
+</html>
