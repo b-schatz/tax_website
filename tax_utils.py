@@ -61,7 +61,6 @@ def calculate_state_tax(state, status, income, kids):
             state_line_items.append((label, tax))
             state_tax += tax
             break
-    print(f"Label: {label}, Taxed: {taxed}, Tax: {tax}")
 
     return state_tax, state_line_items
 
@@ -71,29 +70,29 @@ def calculate_taxes(income, status, kids, state):
     
     brackets = {
         'single': [
-            (11600, 0.10),
-            (47150, 0.12),
-            (100525, 0.22),
-            (191950, 0.24),
-            (243725, 0.32),
-            (609350, 0.35),
+            (11925, 0.10),
+            (48475, 0.12),
+            (103350, 0.22),
+            (197300, 0.24),
+            (250525, 0.32),
+            (626350, 0.35),
             (float('inf'), 0.37)
         ],
         'married': [
-            (23200, 0.10),
-            (94300, 0.12),
-            (201050, 0.22),
-            (383900, 0.24),
-            (487450, 0.32),
-            (731200, 0.35),
+            (23850, 0.10),
+            (96950, 0.12),
+            (206700, 0.22),
+            (394600, 0.24),
+            (501050, 0.32),
+            (751600, 0.35),
             (float('inf'), 0.37)
         ]
     }
 
     # standard deductions for 2024
     standard_deductions = {
-        'single': 14600,
-        'married': 29200
+        'single': 15000,
+        'married': 30000
     }
 
     
@@ -136,7 +135,7 @@ def calculate_taxes(income, status, kids, state):
     fed_line_items.append(("Child Tax Credit", -ctc))
 
     # FICA taxes
-    social_security_cap = 168600
+    social_security_cap = 176100
     ss_tax = min(income, social_security_cap) * 0.062
     medicare_tax = income * 0.0145
     total_fica = ss_tax + medicare_tax
@@ -145,7 +144,6 @@ def calculate_taxes(income, status, kids, state):
         ("Social Security (6.2%)", ss_tax),
         ("Medicare (1.45%)", medicare_tax)
     ]
-    print(f"Label: {state_tax}, Taxed: {state_line_items}, Tax: {tax}")
     return {
         'total': total_federal + total_fica + state_tax,
         'total_fed': total_federal + total_fica,
@@ -171,7 +169,7 @@ def make_tax_breakdown_graph(fed_items, fica_items, state_items):
     # y values
     y_federal = [item[1] for item in fed_items] + [0] * (total_length - len(fed_items))
     y_fica = [0] * len(fed_items) + [item[1] for item in fica_items] + [0] * (total_length - len(fed_items) - len(fica_items))
-    y_state = [0] * (total_length - len(state_items)) + [item[1] for item in state_items]  # state item goes at the end
+    y_state = [0] * (total_length - len(state_items)) + [item[1] for item in state_items] 
 
     fig = go.Figure()
 
@@ -196,7 +194,6 @@ def make_tax_breakdown_graph(fed_items, fica_items, state_items):
         marker=dict(line=dict(width=0)),
     ))
 
-    # add total value labels on top
     combined = [a + b + c for a, b, c in zip(y_federal, y_fica, y_state)]
     label_texts = [f"${int(val):,}" if val > 0 else f"({0}%)" for val in combined]
 
@@ -288,7 +285,6 @@ def make_state_comparison_chart(current_state_abbr, income, status, kids):
     state_totals = {}
 
     for state, data in STATE_BRACKETS.items():
-        # Use state's own deduction, defaulting to 0
         deduction = data.get("standard_deduction", {}).get(status, 0) or 0
         taxable_income = max(0, income - deduction)
 
@@ -307,14 +303,11 @@ def make_state_comparison_chart(current_state_abbr, income, status, kids):
 
         state_totals[state] = total_tax
 
-    # avoid crash if your state is missing
     your_tax = state_totals.get(current_state_abbr, 0)
 
-    # sort states from highest to lowest
     sorted_states = sorted(state_totals.items(), key=lambda x: x[1], reverse=True)
     labels, values = zip(*sorted_states)
 
-    # color logic
     colors = []
     for state, val in sorted_states:
         if state == current_state_abbr:
@@ -356,10 +349,7 @@ def make_total_sales_tax_chart(current_state_abbr, income, net_income, spend_pct
         total_sales_rate = state_rate + local_rate
         sales_tax_paid = taxable_spend * total_sales_rate
         state_totals[state] = sales_tax_paid
-        print(state, "→", sales_tax_paid, spend_fraction, net_income, taxable_spend)
 
-
-    # sort states by sales tax paid
     sorted_states = sorted(state_totals.items(), key=lambda x: x[1], reverse=True)
     labels, values = zip(*sorted_states)
 
