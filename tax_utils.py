@@ -1,12 +1,13 @@
+import plotly.graph_objs as go
 import json
 import os
 
 from collections import defaultdict
 
 STATE_BRACKETS = defaultdict(lambda: {
-    "single": [], 
-    "married": [], 
-    "standard_deduction": {}, 
+    "single": [],
+    "married": [],
+    "standard_deduction": {},
     "personal_exemption": {}
 })
 
@@ -16,17 +17,20 @@ with open("state_tax_brackets_2025.json") as f:
 for state, info in bracket_data.items():
     for status in ("single", "married"):
         for b in info.get(status, []):
-            STATE_BRACKETS[state][status].append((b["bottom"], b["top"], b["rate"]))
-        STATE_BRACKETS[state]["standard_deduction"][status] = info.get("standard_deduction", {}).get(status, 0)
-        STATE_BRACKETS[state]["personal_exemption"][status] = info.get("personal_exemption", {}).get(status, 0)
+            STATE_BRACKETS[state][status].append(
+                (b["bottom"], b["top"], b["rate"]))
+        STATE_BRACKETS[state]["standard_deduction"][status] = info.get(
+            "standard_deduction", {}).get(status, 0)
+        STATE_BRACKETS[state]["personal_exemption"][status] = info.get(
+            "personal_exemption", {}).get(status, 0)
 
 with open("state_sales_tax.json") as f:
     STATE_SALES_TAX = json.load(f)
 
+
 def get_available_states():
     return sorted(STATE_BRACKETS)
 
-import plotly.graph_objs as go
 
 def calculate_state_tax(state, status, income, kids):
     if state not in STATE_BRACKETS or not STATE_BRACKETS[state][status]:
@@ -35,9 +39,11 @@ def calculate_state_tax(state, status, income, kids):
     brackets = STATE_BRACKETS[state].get(status)
     if not brackets:
         return 0, [("State Income Tax", 0)]
-    
-    deduction = STATE_BRACKETS[state].get("standard_deduction", {}).get(status, 0)
-    exemption = STATE_BRACKETS[state].get("personal_exemption", {}).get(status, 0)
+
+    deduction = STATE_BRACKETS[state].get(
+        "standard_deduction", {}).get(status, 0)
+    exemption = STATE_BRACKETS[state].get(
+        "personal_exemption", {}).get(status, 0)
 
     adjusted_income = max(0, income - deduction - (exemption * kids))
     state_tax = 0
@@ -45,8 +51,8 @@ def calculate_state_tax(state, status, income, kids):
     prev_limit = 0
 
     for bottom, top, rate in brackets:
-        if top <= prev_limit :
-            continue  
+        if top <= prev_limit:
+            continue
         if adjusted_income > top:
             taxed = top - prev_limit
             tax = taxed * rate
@@ -66,8 +72,7 @@ def calculate_state_tax(state, status, income, kids):
 
 
 def calculate_taxes(income, status, kids, state):
-    
-    
+
     brackets = {
         'single': [
             (11925, 0.10),
@@ -89,13 +94,11 @@ def calculate_taxes(income, status, kids, state):
         ]
     }
 
-    # standard deductions for 2024
     standard_deductions = {
         'single': 15000,
         'married': 30000
     }
 
-    
     if status not in brackets or status not in standard_deductions:
         raise ValueError("Unsupported or invalid filing status.")
 
@@ -109,11 +112,13 @@ def calculate_taxes(income, status, kids, state):
     state_line_items = []
     total_federal = 0
     previous_limit = 0
-    # use state-specific standard deduction if available
-    state_deduction = STATE_BRACKETS.get(state, {}).get("standard_deduction", {}).get(status, 0)
+
+    state_deduction = STATE_BRACKETS.get(state, {}).get(
+        "standard_deduction", {}).get(status, 0)
     taxable_state_income = max(0, income - state_deduction)
 
-    state_tax, state_line_items = calculate_state_tax(state, status, taxable_state_income, kids)
+    state_tax, state_line_items = calculate_state_tax(
+        state, status, taxable_state_income, kids)
 
     for top, rate in brackets[status]:
         if taxable_income > top:
@@ -129,12 +134,10 @@ def calculate_taxes(income, status, kids, state):
             total_federal += tax
             break
 
-    # Apply child tax credit (simple version)
     ctc = min(kids * 2000, total_federal)
     total_federal -= ctc
     fed_line_items.append(("Child Tax Credit", -ctc))
 
-    # FICA taxes
     social_security_cap = 176100
     ss_tax = min(income, social_security_cap) * 0.062
     medicare_tax = income * 0.0145
@@ -156,20 +159,18 @@ def calculate_taxes(income, status, kids, state):
     }
 
 
-
-
 def make_tax_breakdown_graph(fed_items, fica_items, state_items):
     import plotly.graph_objs as go
 
-    # both stacks use same x axis ("Tax Breakdown")
     x_labels = [item[0] for item in fed_items + fica_items + state_items]
     total_length = len(x_labels)
-    # x_pos = list(range(len(x_labels)))
 
-    # y values
-    y_federal = [item[1] for item in fed_items] + [0] * (total_length - len(fed_items))
-    y_fica = [0] * len(fed_items) + [item[1] for item in fica_items] + [0] * (total_length - len(fed_items) - len(fica_items))
-    y_state = [0] * (total_length - len(state_items)) + [item[1] for item in state_items] 
+    y_federal = [item[1] for item in fed_items] + \
+        [0] * (total_length - len(fed_items))
+    y_fica = [0] * len(fed_items) + [item[1] for item in fica_items] + \
+        [0] * (total_length - len(fed_items) - len(fica_items))
+    y_state = [0] * (total_length - len(state_items)) + [item[1]
+                                                         for item in state_items]
 
     fig = go.Figure()
 
@@ -195,8 +196,8 @@ def make_tax_breakdown_graph(fed_items, fica_items, state_items):
     ))
 
     combined = [a + b + c for a, b, c in zip(y_federal, y_fica, y_state)]
-    label_texts = [f"${int(val):,}" if val > 0 else f"({0}%)" for val in combined]
-
+    label_texts = [f"${int(val):,}" if val >
+                   0 else f"({0}%)" for val in combined]
 
     fig.add_trace(go.Scatter(
         x=x_labels,
@@ -217,11 +218,12 @@ def make_tax_breakdown_graph(fed_items, fica_items, state_items):
 
     return fig
 
+
 def make_tax_summary_chart(income, federal, fica, state):
     import plotly.graph_objs as go
 
     tax_categories = ['Federal', 'FICA', 'State',  'Net Income']
-    tax_values = [federal, fica, state, income - (federal + fica + state )]
+    tax_values = [federal, fica, state, income - (federal + fica + state)]
     colors = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A']
 
     fig = go.Figure(data=[
@@ -244,10 +246,11 @@ def make_tax_summary_chart(income, federal, fica, state):
 
     return fig
 
+
 def make_income_allocation_chart(income, federal, fica, state):
     import plotly.graph_objs as go
 
-    net = income - (federal + fica + state )
+    net = income - (federal + fica + state)
 
     segments = [
         ("Net Income", net, "#FFA15A"),
@@ -272,7 +275,7 @@ def make_income_allocation_chart(income, federal, fica, state):
 
     fig.update_layout(
         barmode='stack',
-        height=800,  # 2x taller than the default
+        height=800,
         title="Income Allocation (100%)",
         yaxis=dict(title="Amount ($)", tickprefix="$", range=[0, income]),
         xaxis=dict(title=""),
@@ -280,6 +283,7 @@ def make_income_allocation_chart(income, federal, fica, state):
     )
 
     return fig
+
 
 def make_state_comparison_chart(current_state_abbr, income, status, kids):
     state_totals = {}
@@ -305,7 +309,8 @@ def make_state_comparison_chart(current_state_abbr, income, status, kids):
 
     your_tax = state_totals.get(current_state_abbr, 0)
 
-    sorted_states = sorted(state_totals.items(), key=lambda x: x[1], reverse=True)
+    sorted_states = sorted(state_totals.items(),
+                           key=lambda x: x[1], reverse=True)
     labels, values = zip(*sorted_states)
 
     colors = []
@@ -337,6 +342,7 @@ def make_state_comparison_chart(current_state_abbr, income, status, kids):
 
     return fig
 
+
 def make_total_sales_tax_chart(current_state_abbr, income, net_income, spend_pct):
     spend_fraction = spend_pct / 100.0
     taxable_spend = net_income * spend_fraction
@@ -350,7 +356,8 @@ def make_total_sales_tax_chart(current_state_abbr, income, net_income, spend_pct
         sales_tax_paid = taxable_spend * total_sales_rate
         state_totals[state] = sales_tax_paid
 
-    sorted_states = sorted(state_totals.items(), key=lambda x: x[1], reverse=True)
+    sorted_states = sorted(state_totals.items(),
+                           key=lambda x: x[1], reverse=True)
     labels, values = zip(*sorted_states)
 
     your_tax = state_totals.get(current_state_abbr, 0)
@@ -360,7 +367,7 @@ def make_total_sales_tax_chart(current_state_abbr, income, net_income, spend_pct
         if state == current_state_abbr:
             colors.append("blue")
         elif val > your_tax:
-            colors.append("red") 
+            colors.append("red")
         elif val == your_tax:
             colors.append("grey")
         else:

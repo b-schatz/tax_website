@@ -5,6 +5,7 @@ from tax_utils import calculate_taxes, make_tax_breakdown_graph, make_tax_summar
 
 app = Flask(__name__)
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     result = None
@@ -15,22 +16,20 @@ def index():
     sales_html = None
     state_list = get_available_states()
 
-
     if request.method == 'POST':
         income = float(request.form['income'])
         status = request.form['status']
         children = int(request.form['children'])
         state = request.form['state']
 
-
         tax_data = calculate_taxes(income, status, children, state)
 
         spend_pct = float(request.form.get("spend_pct", 50))
 
-        _, state_sales_tax, state_sales_tax= make_total_sales_tax_chart(
+        _, state_sales_tax, state_sales_tax = make_total_sales_tax_chart(
             state,
             income,
-            income - tax_data['total'],  # net income
+            income - tax_data['total'],
             spend_pct
         )
         result = {
@@ -45,7 +44,6 @@ def index():
 
         }
 
-
         graph_html = pio.to_html(make_tax_breakdown_graph(
             tax_data['federal_items'],
             tax_data['fica_items'],
@@ -55,7 +53,7 @@ def index():
         summary_html = pio.to_html(make_tax_summary_chart(
             income,
             tax_data['federal'],
-            tax_data['fica'],  
+            tax_data['fica'],
             tax_data['state']
         ), full_html=False)
 
@@ -81,18 +79,17 @@ def index():
         )
         sales_html = pio.to_html(sales_fig, full_html=False)
 
-
-
     return render_template(
-        'index.html', 
-        result=result, 
-        graph_html=graph_html, 
+        'index.html',
+        result=result,
+        graph_html=graph_html,
         summary_html=summary_html,
         allocation_html=allocation_html,
         comparison_html=comparison_html,
         state_list=state_list,
         sales_html=sales_html
-        )
+    )
+
 
 if __name__ == '__main__':
     app.run(debug=True)
