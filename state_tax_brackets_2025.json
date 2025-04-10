@@ -309,7 +309,7 @@
       {
         "bottom": 0.0,
         "top": 99999999.0,
-        "rate": NaN
+        "rate": 0
       }
     ],
     "married": [
@@ -351,7 +351,7 @@
       {
         "bottom": 0.0,
         "top": 99999999.0,
-        "rate": NaN
+        "rate": 0
       }
     ],
     "standard_deduction": {
