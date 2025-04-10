@@ -15,7 +15,7 @@ with open("state_tax_brackets_2025.json") as f:
     bracket_data = json.load(f)
 
 for state, info in bracket_data.items():
-    for status in ("single", "married"):
+    for status in ("single", "married"):        
         for b in info.get(status, []):
             STATE_BRACKETS[state][status].append(
                 (b["bottom"], b["top"], b["rate"]))
