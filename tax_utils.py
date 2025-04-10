@@ -11,6 +11,14 @@ STATE_BRACKETS = defaultdict(lambda: {
     "personal_exemption": {}
 })
 
+COLOR_ASSIGN = {
+    'Federal': '#f9b4ab', 
+    'FICA': '#fdebd3',    
+    'State': '#8db5d8',   
+    'Child Tax Credit': '#68cc7f', 
+    'Net Income': '#68cc7f',  
+    }
+
 with open("state_tax_brackets_2025.json") as f:
     bracket_data = json.load(f)
 
@@ -56,14 +64,14 @@ def calculate_state_tax(state, status, income, kids):
         if adjusted_income > top:
             taxed = top - prev_limit
             tax = taxed * rate
-            label = f"${int(prev_limit)}–{int(top)}"
+            label = f"${int(prev_limit):,}<br>to<br>${int(top):,}<br>({rate*100:.1f}%)"
             state_line_items.append((label, tax))
             state_tax += tax
             prev_limit = top
         else:
             taxed = adjusted_income - prev_limit
             tax = taxed * rate
-            label = f"${int(prev_limit)}–{int(adjusted_income)}"
+            label = f"${int(prev_limit):,}<br>to<br>${int(adjusted_income):,}<br>({rate*100:.1f}%)"
             state_line_items.append((label, tax))
             state_tax += tax
             break
@@ -71,7 +79,7 @@ def calculate_state_tax(state, status, income, kids):
     return state_tax, state_line_items
 
 
-def calculate_taxes(income, status, kids, state):
+def calculate_taxes(income, status, kids, state, spend_pct):
 
     brackets = {
         'single': [
@@ -102,7 +110,8 @@ def calculate_taxes(income, status, kids, state):
     if status not in brackets or status not in standard_deductions:
         raise ValueError("Unsupported or invalid filing status.")
 
-    taxable_income = max(0, income - standard_deductions[status])
+    ctc = max(kids * 2000, 0) if status == 'single' else min(kids * 2000, 4000)
+    taxable_income = max(0, income - standard_deductions[status] - ctc)
     if taxable_income == 0:
         return {
             'total': 0,
@@ -112,6 +121,8 @@ def calculate_taxes(income, status, kids, state):
     state_line_items = []
     total_federal = 0
     previous_limit = 0
+
+    fed_credit_items = [("Child Tax Credit", -ctc)]
 
     state_deduction = STATE_BRACKETS.get(state, {}).get(
         "standard_deduction", {}).get(status, 0)
@@ -124,80 +135,89 @@ def calculate_taxes(income, status, kids, state):
         if taxable_income > top:
             taxed_amount = top - previous_limit
             tax = taxed_amount * rate
-            fed_line_items.append((f"${previous_limit}-{top}", tax))
+            fed_line_items.append((f"${previous_limit:,}<br>to<br>${top:,}<br>({rate*100:.1f}%)", tax))
             total_federal += tax
             previous_limit = top
         else:
             taxed_amount = taxable_income - previous_limit
             tax = taxed_amount * rate
-            fed_line_items.append((f"${previous_limit}-{taxable_income}", tax))
+            fed_line_items.append((f"${previous_limit:,}<br>to<br>${taxable_income:,}<br>({rate*100:.1f}%)", tax))
             total_federal += tax
             break
 
-    ctc = min(kids * 2000, total_federal)
-    total_federal -= ctc
-    fed_line_items.append(("Child Tax Credit", -ctc))
 
     social_security_cap = 176100
     ss_tax = min(income, social_security_cap) * 0.062
     medicare_tax = income * 0.0145
     total_fica = ss_tax + medicare_tax
 
+    spend_fraction = spend_pct / 100.0
+    net_income = income - (total_federal + total_fica + state_tax)
+    taxable_spend = net_income * spend_fraction
+
     fica_line_items = [
-        ("Social Security (6.2%)", ss_tax),
-        ("Medicare (1.45%)", medicare_tax)
+        ("Social Security<br>(6.2%)", ss_tax),
+        ("Medicare<br>(1.45%)", medicare_tax)
     ]
     return {
         'total': total_federal + total_fica + state_tax,
         'total_fed': total_federal + total_fica,
+        'standard_deduction': standard_deductions[status],
+        'state_deduction': state_deduction,
+        'taxable_income': taxable_income,
+        'taxable_state_income': taxable_state_income, 
+        'net_income': net_income,
         'federal': total_federal,
         'fica': total_fica,
         'state': state_tax,
+        'taxable_spend': taxable_spend,
         'federal_items': fed_line_items,
+        'fed_credit_items': fed_credit_items,
         'fica_items': fica_line_items,
         'state_items': state_line_items
     }
 
 
-def make_tax_breakdown_graph(fed_items, fica_items, state_items):
+def make_tax_breakdown_graph(fed_items, fed_credit_items, fica_items, state_items):
     import plotly.graph_objs as go
 
-    x_labels = [item[0] for item in fed_items + fica_items + state_items]
+    tax_groups = [
+        ("Federal", fed_items),
+        ("Child Tax Credit", fed_credit_items),
+        ("FICA", fica_items),
+        ("State", state_items)
+    ]
+    x_labels = [item[0] for item in fed_items + fed_credit_items + fica_items + state_items]
     total_length = len(x_labels)
 
     y_federal = [item[1] for item in fed_items] + \
         [0] * (total_length - len(fed_items))
+    y_federal_creds = [item[1] for item in fed_credit_items] + \
+        [0] * (total_length - len(fed_credit_items))
     y_fica = [0] * len(fed_items) + [item[1] for item in fica_items] + \
         [0] * (total_length - len(fed_items) - len(fica_items))
     y_state = [0] * (total_length - len(state_items)) + [item[1]
                                                          for item in state_items]
 
+    bars = []
+    curr_index = 0
+    for label, items in tax_groups:
+        y_vals = [0] * curr_index + [item[1] for item in items] + [0] * (total_length - curr_index - len(items))
+        curr_index += len(items)
+        bars.append((label, y_vals))
+        
     fig = go.Figure()
 
-    fig.add_trace(go.Bar(
-        name='Federal Tax',
-        x=x_labels,
-        y=y_federal,
-        marker=dict(line=dict(width=0)),
-    ))
+    for label, y_vals in bars:
+        fig.add_trace(go.Bar(
+            name=f"{label}",
+            x=x_labels,
+            y=y_vals,
+            marker_color=COLOR_ASSIGN.get(label, "#ccc")  # fallback to grey if unknown
+        ))
 
-    fig.add_trace(go.Bar(
-        name='FICA Tax',
-        x=x_labels,
-        y=y_fica,
-        marker=dict(line=dict(width=0)),
-    ))
-
-    fig.add_trace(go.Bar(
-        name='State Tax',
-        x=x_labels,
-        y=y_state,
-        marker=dict(line=dict(width=0)),
-    ))
-
-    combined = [a + b + c for a, b, c in zip(y_federal, y_fica, y_state)]
-    label_texts = [f"${int(val):,}" if val >
-                   0 else f"({0}%)" for val in combined]
+    combined = [sum(vals) for vals in zip(*[y for _, y in bars])]
+    label_texts = [f"${int(val):,}" for val in combined]
 
     fig.add_trace(go.Scatter(
         x=x_labels,
@@ -206,6 +226,7 @@ def make_tax_breakdown_graph(fed_items, fica_items, state_items):
         mode="text",
         textposition="top center",
         showlegend=False
+
     ))
 
     fig.update_layout(
@@ -213,6 +234,7 @@ def make_tax_breakdown_graph(fed_items, fica_items, state_items):
         title="Tax Breakdown: Federal + FICA",
         xaxis_title="Line Item",
         yaxis_title="Amount ($)",
+        yaxis=dict(tickprefix="$"),
         legend=dict(x=0.8, y=1.1)
     )
 
@@ -224,13 +246,17 @@ def make_tax_summary_chart(income, federal, fica, state):
 
     tax_categories = ['Federal', 'FICA', 'State',  'Net Income']
     tax_values = [federal, fica, state, income - (federal + fica + state)]
-    colors = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A']
+    total_net = income
+    percentages = [(val / total_net * 100) if total_net > 0 else 0 for val in tax_values]
+    colors = [COLOR_ASSIGN[label] for label in tax_categories]
+    
+    labels = [f"${int(v):,}<br>({p:.1f}%)" for v, p in zip(tax_values, percentages)]
 
     fig = go.Figure(data=[
         go.Bar(
             x=tax_categories,
             y=tax_values,
-            text=[f"${int(v):,}" for v in tax_values],
+            text=labels,
             textposition='auto',
             marker_color=colors
         )
@@ -247,13 +273,11 @@ def make_tax_summary_chart(income, federal, fica, state):
     return fig
 
 
-def make_income_allocation_chart(income, federal, fica, state):
+def make_income_allocation_chart(income, federal, fica, state, net_income):
     import plotly.graph_objs as go
 
-    net = income - (federal + fica + state)
-
     segments = [
-        ("Net Income", net, "#FFA15A"),
+        ("Net Income", net_income, "#FFA15A"),
         ("Federal", federal, "#636EFA"),
         ("FICA", fica, "#EF553B"),
         ("State", state, "#00CC96")
@@ -316,7 +340,7 @@ def make_state_comparison_chart(current_state_abbr, income, status, kids):
     colors = []
     for state, val in sorted_states:
         if state == current_state_abbr:
-            colors.append("blue")
+            colors.append("blue"),
         elif val > your_tax:
             colors.append("red")
         elif val < your_tax:
@@ -324,28 +348,38 @@ def make_state_comparison_chart(current_state_abbr, income, status, kids):
         else:
             colors.append("gray")
 
-    fig = go.Figure(go.Bar(
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(
         x=labels,
         y=values,
         marker_color=colors,
         text=[f"${v:,.0f}" for v in values],
-        textposition="auto"
+        textposition="auto",
+        showlegend=False
+
     ))
+
+    fig.add_trace(go.Bar(x=[None], y=[None], name="Your State", marker_color="blue"))
+    fig.add_trace(go.Bar(x=[None], y=[None], name="Same Tax Amount", marker_color="grey"))
+    fig.add_trace(go.Bar(x=[None], y=[None], name="Higher Tax", marker_color="red"))
+    fig.add_trace(go.Bar(x=[None], y=[None], name="Lower Tax", marker_color="green"))
 
     fig.update_layout(
         title="State Income Tax Comparison (2025)",
         xaxis_title="State",
         yaxis_title="Total State Income Tax ($)",
         yaxis_tickprefix="$",
-        height=500
+        height=500,
+        legend=dict(x=0.8, y=1.1)
     )
 
     return fig
 
 
-def make_total_sales_tax_chart(current_state_abbr, income, net_income, spend_pct):
-    spend_fraction = spend_pct / 100.0
-    taxable_spend = net_income * spend_fraction
+def make_total_sales_tax_chart(current_state_abbr, taxable_spend, spend_pct):
+
 
     state_totals = {}
 
@@ -373,13 +407,21 @@ def make_total_sales_tax_chart(current_state_abbr, income, net_income, spend_pct
         else:
             colors.append("green")
 
-    fig = go.Figure(go.Bar(
+    fig = go.Figure()
+    
+    fig.add_trace(go.Bar(
         x=labels,
         y=values,
         marker_color=colors,
         text=[f"${v:,.0f}" for v in values],
-        textposition="auto"
+        textposition="auto",
+        showlegend=False
     ))
+
+    fig.add_trace(go.Bar(x=[None], y=[None], name="Your State", marker_color="blue"))
+    fig.add_trace(go.Bar(x=[None], y=[None], name="Same Sales Tax ", marker_color="grey"))
+    fig.add_trace(go.Bar(x=[None], y=[None], name="Higher Sales Tax", marker_color="red"))
+    fig.add_trace(go.Bar(x=[None], y=[None], name="Lower Sales Tax", marker_color="green"))
 
     fig.update_layout(
         title=f"Estimated Sales Tax on {int(spend_pct)}% of Net Income",

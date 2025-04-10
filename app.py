@@ -9,6 +9,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     result = None
+    init_numbers = None
     graph_html = None
     summary_html = None
     allocation_html = None
@@ -22,16 +23,28 @@ def index():
         children = int(request.form['children'])
         state = request.form['state']
 
-        tax_data = calculate_taxes(income, status, children, state)
-
         spend_pct = float(request.form.get("spend_pct", 50))
+        tax_data = calculate_taxes(income, status, children, state, spend_pct)
+
 
         _, state_sales_tax, state_sales_tax = make_total_sales_tax_chart(
             state,
             income,
-            income - tax_data['total'],
-            spend_pct
+            income - tax_data['total']
         )
+        init_numbers = {
+            'income': income,
+            'status': status,
+            'children': children,
+            'state': state,
+            'spend_pct': spend_pct,
+            'standard_deduction': tax_data['standard_deduction'],
+            'state_deduction': tax_data['state_deduction'],
+            'taxable_income': tax_data['taxable_income'],
+            'taxable_state_income': tax_data['taxable_state_income'],
+            'taxable_spend': tax_data['taxable_spend']
+        }
+
         result = {
             'total_tax': round(tax_data['total'], 2),
             'effective_rate': round(tax_data['total'] / income * 100, 2),
@@ -46,6 +59,7 @@ def index():
 
         graph_html = pio.to_html(make_tax_breakdown_graph(
             tax_data['federal_items'],
+            tax_data['fed_credit_items'], 
             tax_data['fica_items'],
             tax_data['state_items']
         ), full_html=False)
@@ -61,7 +75,8 @@ def index():
             income,
             tax_data['federal'],
             tax_data['fica'],
-            tax_data['state']
+            tax_data['state'],
+            tax_data['net_income']
         ), full_html=False)
 
         comparison_html = pio.to_html(make_state_comparison_chart(
@@ -71,16 +86,16 @@ def index():
             children
         ), full_html=False)
 
-        sales_fig, _, _ = make_total_sales_tax_chart(
+        sales_fig, _, _= make_total_sales_tax_chart(
             state,
             income,
-            income - tax_data['total'],
-            spend_pct
+            income - tax_data['total']
         )
         sales_html = pio.to_html(sales_fig, full_html=False)
 
     return render_template(
         'index.html',
+        init_numbers=init_numbers,
         result=result,
         graph_html=graph_html,
         summary_html=summary_html,

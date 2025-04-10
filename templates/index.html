@@ -51,6 +51,17 @@
     </form>
 
     {% if result %}
+
+        <h2>Tax Calculation Results</h2>
+        <h3> Initial Details</h3>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 2rem 0;">
+          <div><strong>Standard Deduction:</strong><br>${{ init_numbers.standard_deduction }}</div>
+          <div><strong>Fed Taxable Income (AGI):</strong><br>${{ init_numbers.taxable_income }}</div>
+          <div><strong>State Deduction:</strong><br>${{ init_numbers.state_deduction }}</div>
+          <div><strong>State Taxable Income (AGI):</strong><br>${{ init_numbers.taxable_state_income }}</div>
+          <div><strong>Estimated Spend Amount:</strong><br>${{ init_numbers.spend_amount }}</div>
+          <div><strong>Estimated Spend Amount (Taxable):</strong><br>${{ init_numbers.spend_amount_taxable }}</div>
+          </div><br><br><br>
         <h3>Results</h3>
         {% if result %}
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 2rem 0;">
